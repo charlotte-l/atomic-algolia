@@ -5,7 +5,7 @@
   "main": "lib/index.js",
   "bin": "lib/index.js",
   "scripts": {
-    "prepublish": "npm run babel",
+    "prepare": "npm run babel",
     "prepush": "npm run babel",
     "babel": "npx babel src -d lib",
     "babel:watch": "npx babel -- --watch",
