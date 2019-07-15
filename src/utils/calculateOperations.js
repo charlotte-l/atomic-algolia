@@ -91,13 +91,10 @@ function compareHitFromIndexes(id, newIndex, oldIndex) {
     debug('Old hit: %o', oldHit);
 
     if (newHit.length > 0 && oldHit.length > 0 ) {
-        var newHitSorted = JSON.stringify(newHit[0], Object.keys(newHit[0]).sort())
-        var oldHitSorted = JSON.stringify(oldHit[0], Object.keys(oldHit[0]).sort())
-        var newHash = md5(newHitSorted)
-        var oldHash = md5(oldHitSorted)
+        var newHash = newHit[0].objectHash;
+        var oldHash = oldHit[0].objectHash;
 
         debug('Comparing new to old:');
-        debug('%o <> %o', newHitSorted, oldHitSorted);
         debug('%s <> %s', newHash, oldHash);
 
         return newHash !== oldHash
