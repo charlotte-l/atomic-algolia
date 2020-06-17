@@ -10,24 +10,20 @@ module.exports = async function getRemoteIndex(index) {
 }
 
 function query(index) {
-    return new Promise(function(resolve, reject) { 
-        index.browse("", {}, function browseDone(err, content, hits) {
-            if (err) reject(err);
+    return new Promise(function(resolve, reject) {
+        const browser = index.browseAll();
+        let hits = [];
 
-            if (!Array.isArray(hits)) {
-                hits = []
-            }
+        browser.on('result', function(content) {
+            hits = hits.concat(content.hits);
+        });
 
-            content.hits.forEach(function(hit) {
-                hit.objectID = String(hit.objectID)
-                hits.push(hit)
-            })
-        
-            if (content.cursor) {
-                resolve(index.browseFrom(content.cursor, browseDone, hits))
-            } else {
-                resolve(hits)
-            }
-        })
+        browser.on('end', function() {
+            resolve(hits);
+        });
+
+        browser.on('error', function(err) {
+            reject(err);
+        });
     })
 }
